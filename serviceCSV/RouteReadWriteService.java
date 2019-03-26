@@ -5,11 +5,13 @@ import model.Road;
 import model.Route;
 import model.Information;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RouteReadWriteService {
 
     private String fileName = "src/dataFiles/Route.csv";
+    private String outfName = "src/dataFiles/RoutePrint.csv";
     private ReadWriteService readWriteService = new ReadWriteService();
     private Information info = Information.getInformation();
 
@@ -27,4 +29,5 @@ public class RouteReadWriteService {
             info.addRoute(route);
         }
     }
+
 }

@@ -9,6 +9,7 @@ import java.util.*;
 public class CityReadWriteService {
 
     private String fileName = "src/dataFiles/City.csv";
+    private String outfName = "src/dataFiles/CityPrint.csv";
     private ReadWriteService readWriteService = new ReadWriteService();
     private Information info = Information.getInformation();
 
@@ -22,5 +23,17 @@ public class CityReadWriteService {
             City city = new City(name, country);
             info.addCity(city);
         }
+    }
+
+    public void printCities() {
+        List<City> cities = info.getCities();
+        List< List<String> > data = new ArrayList<>();
+        for (City city : cities) {
+            List<String> record = new ArrayList<>();
+            record.add(city.getName());
+            record.add(city.getCountry());
+            data.add(record);
+        }
+        readWriteService.writeTo(outfName, data);
     }
 }

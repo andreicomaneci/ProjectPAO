@@ -9,6 +9,7 @@ import java.util.*;
 public class RoadReadWriteService {
 
     private String fileName = "src/dataFiles/Road.csv";
+    private String outfName = "src/dataFiles/RoadPrint.csv";
     private ReadWriteService readWriteService = new ReadWriteService();
     private Information info = Information.getInformation();
 
@@ -28,5 +29,21 @@ public class RoadReadWriteService {
             Road road = new Road(departure, destination, roadNumber, length, tax, speedLimit);
             info.addRoad(road);
         }
+    }
+
+    public void printRoads() {
+        List<Road> roads = info.getRoads();
+        List< List<String> > data = new ArrayList<>();
+        for (Road road : roads) {
+            List<String> record = new ArrayList<>();
+            record.add(road.getDeparture().getName());
+            record.add(road.getDestination().getName());
+            record.add(road.getRoadNumber());
+            record.add(String.valueOf(road.getLength()));
+            record.add(String.valueOf(road.getTax()));
+            record.add(String.valueOf(road.getSpeedLimit()));
+            data.add(record);
+        }
+        readWriteService.writeTo(outfName, data);
     }
 }

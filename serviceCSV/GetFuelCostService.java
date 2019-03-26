@@ -10,15 +10,14 @@ public class GetFuelCostService {
     private ReadWriteService readWriteService = new ReadWriteService();
     private Information info = Information.getInformation();
 
-    public void getCities() {
+    public void getFuel() {
         List<List<String>> records = readWriteService.readFrom(fileName);
 
         //String name, String country
         for (List<String> record : records) {
-            String name = record.get(0);
-            String country = record.get(1);
-            City city = new City(name, country);
-            info.addCity(city);
+            String fuelName = record.get(0);
+            Double cost = Double.parseDouble(record.get(1));
+            info.setFuelCost(fuelName, cost);
         }
     }
 }

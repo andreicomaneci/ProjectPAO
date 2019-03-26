@@ -3,11 +3,14 @@ package serviceCSV;
 import model.FuelType;
 import model.Information;
 import model.Van;
+import model.Vehicle;
+
 import java.util.*;
 
 public class VanReadWriteService {
 
     private String fileName = "src/dataFiles/Van.csv";
+    private String outfName = "src/dataFiles/VanPrint.csv";
     private ReadWriteService readWriteService = new ReadWriteService();
     private Information info = Information.getInformation();
 
@@ -31,5 +34,31 @@ public class VanReadWriteService {
             Van van = new Van(manufacturer, model, registrationNumber, fuelType, maximuDepositWeight, capacity, averageConsumption);
             info.addVehicle(van);
         }
+    }
+
+    public void printVans() {
+        List<Van> vans = new ArrayList<>();
+        for (Vehicle car : info.getVehicles()) {
+            if (car instanceof Van)
+                vans.add((Van)car);
+        }
+        List< List<String> > data = new ArrayList<>();
+        for (Van van : vans) {
+            List<String> record = new ArrayList<>();
+            record.add(van.getManufacturer());
+            record.add(van.getModel());
+            record.add(van.getRegistrationNumber());
+            String fuelName;
+            if (van.getFuelType().equals(FuelType.DIESEL))
+                fuelName = "Diesel";
+            else
+                fuelName = "Petrol";
+            record.add(fuelName);
+            record.add(String.valueOf(van.getMaximumDepositWeight()));
+            record.add(String.valueOf(van.getCapacity()));
+            record.add(String.valueOf(van.getAverageConsumption()));
+            data.add(record);
+        }
+        readWriteService.writeTo(outfName, data);
     }
 }

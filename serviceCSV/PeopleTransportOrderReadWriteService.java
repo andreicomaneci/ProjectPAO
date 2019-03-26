@@ -1,14 +1,13 @@
 package serviceCSV;
 
-import model.City;
-import model.GoodsTransportOrder;
-import model.Information;
-import model.PeopleTransportOrder;
+import model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PeopleTransportOrderReadWriteService {
     private String fileName = "src/dataFiles/People.csv";
+    private String outfName = "src/dataFiles/PeoplePrint.csv";
     private ReadWriteService readWriteService = new ReadWriteService();
     private Information info = Information.getInformation();
 
@@ -23,5 +22,22 @@ public class PeopleTransportOrderReadWriteService {
             PeopleTransportOrder order = new PeopleTransportOrder(numberOfPeople, departure, destination);
             info.addOrder(order);
         }
+    }
+
+    public void printOrders() {
+        List<PeopleTransportOrder> orders = new ArrayList<>();
+        for (Order order : info.getOrders()) {
+            if (order instanceof PeopleTransportOrder)
+                orders.add((PeopleTransportOrder) order);
+        }
+        List< List<String> > data = new ArrayList<>();
+        for (PeopleTransportOrder order : orders) {
+            List<String> record = new ArrayList<>();
+            record.add(String.valueOf(order.getNumberOfPeople()));
+            record.add(order.getDeparture().getName());
+            record.add(order.getDestination().getName());
+            data.add(record);
+        }
+        readWriteService.writeTo(outfName, data);
     }
 }
