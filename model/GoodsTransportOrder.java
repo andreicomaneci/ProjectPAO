@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class GoodsTransportOrder extends Order {
 
-    City deliveryPlace;
-    double weight;
-    double volume;
+    private City deliveryPlace;
+    private double weight;
+    private double volume;
 
     public GoodsTransportOrder(City deliveryPlace, double weight, double volume) {
         this.deliveryPlace = deliveryPlace;

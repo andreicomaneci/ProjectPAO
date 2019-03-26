@@ -8,15 +8,17 @@ import java.util.Map;
 public class Information {
     private static Information information;
 
-    static List<Road> roads = new LinkedList<>();
-    static List<Vehicle> vehicles = new LinkedList<>();
-    static List<City> cities = new LinkedList<>();
-    static List<Route> routes = new LinkedList<>();
-    static List<Order> orders = new LinkedList<>();
+    private static List<Road> roads = new LinkedList<>();
+    private static List<Vehicle> vehicles = new LinkedList<>();
+    private static List<City> cities = new LinkedList<>();
+    private static List<Route> routes = new LinkedList<>();
+    private static List<Order> orders = new LinkedList<>();
     private Map<FuelType, Double> fuelCost = new HashMap<>();
     private City mainOfficeLocation = new City("Buftea", "Romania");
 
-    private Information() {}
+    private Information() {
+        cities.add(mainOfficeLocation);
+    }
 
     public static Information getInformation() {
         if (information == null)
