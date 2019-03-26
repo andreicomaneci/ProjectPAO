@@ -2,6 +2,7 @@ package service;
 
 import model.*;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,6 +81,28 @@ public class OrderService {
             cost += getRouteCost(vehicle, order.getAssignedRoute());
         }
         return cost;
+    }
+
+    public List<Order> getListOfOrdersAssignedToVehicle(Vehicle vehicle) {
+        List<Order> wantedOrders = new LinkedList<>();
+        for (Order order : info.getOrders()) {
+            if (order.getAssignedVehicles().contains(vehicle))
+                wantedOrders.add(order);
+        }
+        return wantedOrders;
+    }
+
+    public List<Bus> bestBusesWithLeastNumberOfSeats(int leastNumberOfSeats) {
+        List<Bus> buses = new LinkedList<>();
+        for (Vehicle car : info.getVehicles()) {
+            if (car instanceof Bus) {
+                Bus bus = (Bus)car;
+                if (bus.getNumberOfSeats() >= leastNumberOfSeats)
+                    buses.add(bus);
+            }
+        }
+        Collections.sort(buses, new ConsumptionComparator());
+        return buses;
     }
 
 }
