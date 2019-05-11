@@ -32,6 +32,7 @@ public class Main {
         RoadReadWriteService roadReader = new RoadReadWriteService();
         PeopleTransportOrderReadWriteService peopleReader = new PeopleTransportOrderReadWriteService();
         GoodsTransportOrderReadWriteService goodReader = new GoodsTransportOrderReadWriteService();
+        GetFuelCostService fuelReader = new GetFuelCostService();
 
         busReader.getBuses();
         vanReader.getVans();
@@ -41,6 +42,7 @@ public class Main {
         routeReader.getRoutes();
         peopleReader.getOrders();
         goodReader.getOrders();
+        fuelReader.getFuel();
         System.out.println("\nThe list of all vehicles\n---");
         for (Vehicle car : info.getVehicles()) {
             //System.out.print(car.getClass() + " | ");
@@ -64,6 +66,12 @@ public class Main {
             OrderService stuffDoer = new OrderService();
             Route route = stuffDoer.assignOrder(order);
             System.out.println(route);
+            System.out.println(stuffDoer.getRouteCost(route));
+            System.out.println(stuffDoer.getOrderCost(order));
         }
+        /*OrderService stuffDoer = new OrderService();
+        List<Bus> bestBuses = stuffDoer.bestBusesWithLeastNumberOfSeats(30);
+        System.out.println(bestBuses.get(0));*/
+        busReader.printBuses();
     }
 }
