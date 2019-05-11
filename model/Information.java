@@ -121,4 +121,31 @@ public class Information {
     public City getMainCity() {
         return mainOfficeLocation;
     }
+
+    public List<Bus> getBuses() {
+        List<Bus> buses = new LinkedList<>();
+        for (Vehicle car : vehicles) {
+            if (car instanceof Bus)
+                buses.add((Bus)car);
+        }
+        return buses;
+    }
+
+    public List<Truck> getTrucks() {
+        List<Truck> trucks = new LinkedList<>();
+        for (Vehicle car : vehicles) {
+            if (car instanceof Truck)
+                trucks.add((Truck)car);
+        }
+        return trucks;
+    }
+
+    public List<Van> getVans() {
+        List<Van> vans = new LinkedList<>();
+        for (Vehicle car : vehicles) {
+            if (car instanceof Van)
+                vans.add((Van)car);
+        }
+        return vans;
+    }
 }
