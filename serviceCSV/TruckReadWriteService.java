@@ -25,9 +25,9 @@ public class TruckReadWriteService {
             String fuelTypeString = record.get(3);
             FuelType fuelType;
             if (fuelTypeString.equalsIgnoreCase("Diesel"))
-                fuelType = FuelType.DIESEL;
+                fuelType = FuelType.Diesel;
             else
-                fuelType = FuelType.PETROL;
+                fuelType = FuelType.Petrol;
             Double maximuDepositWeight = Double.parseDouble(record.get(4));
             Double capacity = Double.parseDouble(record.get(5));
             Double averageConsumption = Double.parseDouble(record.get(6));
@@ -49,7 +49,7 @@ public class TruckReadWriteService {
             record.add(truck.getModel());
             record.add(truck.getRegistrationNumber());
             String fuelName;
-            if (truck.getFuelType().equals(FuelType.DIESEL))
+            if (truck.getFuelType().equals(FuelType.Diesel))
                 fuelName = "Diesel";
             else
                 fuelName = "Petrol";

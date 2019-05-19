@@ -25,13 +25,13 @@ public class VanReadWriteService {
             String fuelTypeString = record.get(3);
             FuelType fuelType;
             if (fuelTypeString.equalsIgnoreCase("Diesel"))
-                fuelType = FuelType.DIESEL;
+                fuelType = FuelType.Diesel;
             else
-                fuelType = FuelType.PETROL;
-            Double maximuDepositWeight = Double.parseDouble(record.get(4));
+                fuelType = FuelType.Petrol;
+            Double maximumDepositWeight = Double.parseDouble(record.get(4));
             Double capacity = Double.parseDouble(record.get(5));
             Double averageConsumption = Double.parseDouble(record.get(6));
-            Van van = new Van(manufacturer, model, registrationNumber, fuelType, maximuDepositWeight, capacity, averageConsumption);
+            Van van = new Van(manufacturer, model, registrationNumber, fuelType, maximumDepositWeight, capacity, averageConsumption);
             info.addVehicle(van);
         }
     }
@@ -49,7 +49,7 @@ public class VanReadWriteService {
             record.add(van.getModel());
             record.add(van.getRegistrationNumber());
             String fuelName;
-            if (van.getFuelType().equals(FuelType.DIESEL))
+            if (van.getFuelType().equals(FuelType.Diesel))
                 fuelName = "Diesel";
             else
                 fuelName = "Petrol";

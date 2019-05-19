@@ -25,9 +25,9 @@ public class BusReadWriteService {
             String fuelTypeString = record.get(3);
             FuelType fuelType;
             if (fuelTypeString.equalsIgnoreCase("Diesel"))
-                fuelType = FuelType.DIESEL;
+                fuelType = FuelType.Diesel;
             else
-                fuelType = FuelType.PETROL;
+                fuelType = FuelType.Petrol;
             Integer numberOfSeats = Integer.parseInt(record.get(4));
             Double averageConsumption = Double.parseDouble(record.get(5));
             Bus bus = new Bus(manufacturer, model, registrationNumber, fuelType, numberOfSeats, averageConsumption);
@@ -48,7 +48,7 @@ public class BusReadWriteService {
             record.add(bus.getModel());
             record.add(bus.getRegistrationNumber());
             String fuelName;
-            if (bus.getFuelType().equals(FuelType.DIESEL))
+            if (bus.getFuelType().equals(FuelType.Diesel))
                 fuelName = "Diesel";
             else
                 fuelName = "Petrol";
