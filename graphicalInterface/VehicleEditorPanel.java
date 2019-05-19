@@ -1,6 +1,5 @@
 package graphicalInterface;
 
-import copyrightedClasses.SpringUtilities;
 import model.*;
 import repositories.BusRepository;
 import repositories.TruckRepository;
@@ -12,6 +11,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Vector;
 
@@ -61,9 +62,9 @@ public class VehicleEditorPanel extends JPanel {
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        busButton.addActionListener(new CustomActionListener());
-        vanButton.addActionListener(new CustomActionListener());
-        truckButton.addActionListener(new CustomActionListener());
+        busButton.addActionListener(new RadioButtonActionListener());
+        vanButton.addActionListener(new RadioButtonActionListener());
+        truckButton.addActionListener(new RadioButtonActionListener());
         vehicleTypesGroup.add(busButton);
         vehicleTypesGroup.add(truckButton);
         vehicleTypesGroup.add(vanButton);
@@ -82,6 +83,7 @@ public class VehicleEditorPanel extends JPanel {
                 createForm(formPanel, car);
             }
         });
+        vehiclesList.addMouseListener(new DeleteMouseAdapter());
 
         listPanel.add(vehiclesList);
 
@@ -105,6 +107,7 @@ public class VehicleEditorPanel extends JPanel {
             }
         });
         vehiclesList.setListData(new Vector<>(vehicles));
+        vehiclesList.addMouseListener(new DeleteMouseAdapter());
         listPanel.add(vehiclesList);
     }
 
@@ -231,7 +234,7 @@ public class VehicleEditorPanel extends JPanel {
 
     }
 
-    class CustomActionListener implements ActionListener {
+    class RadioButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
             String vehicleType = evt.getActionCommand();
 
@@ -267,7 +270,87 @@ public class VehicleEditorPanel extends JPanel {
     class EditActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent evt) {
+            if (busButton.isSelected()) {
+                try {
+                    String manufacturer = manTextField.getText();
+                    if (manufacturer == "")
+                        throw new RuntimeException();
+                    String model = modelTextField.getText();
+                    if (model == "")
+                        throw new RuntimeException();
+                    String registrationNumber = regNumTextField.getText();
+                    String fuelTypeString = fuelTextField.getText();
+                    FuelType fuelType;
+                    if (fuelTypeString.equalsIgnoreCase("Diesel"))
+                        fuelType = FuelType.Diesel;
+                    else {
+                        if (fuelTypeString.equalsIgnoreCase("Petrol"))
+                            fuelType = FuelType.Petrol;
+                        else
+                            throw new  RuntimeException();
+                    }
+                    Integer numberOfSeats = Integer.parseInt(seatsTextField.getText());
+                    Double averageConsumption = Double.parseDouble(consumpTextField.getText());
+                    Bus bus = new Bus(manufacturer, model, registrationNumber, fuelType, numberOfSeats, averageConsumption);
+                    busRepository.updateBus(bus);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
+            if (vanButton.isSelected()) {
+                try {
+                    String manufacturer = manTextField.getText();
+                    if (manufacturer == "")
+                        throw new RuntimeException();
+                    String model = modelTextField.getText();
+                    if (model == "")
+                        throw new RuntimeException();
+                    String registrationNumber = regNumTextField.getText();
+                    String fuelTypeString = fuelTextField.getText();
+                    FuelType fuelType;
+                    if (fuelTypeString.equalsIgnoreCase("Diesel"))
+                        fuelType = FuelType.Diesel;
+                    else {
+                        if (fuelTypeString.equalsIgnoreCase("Petrol"))
+                            fuelType = FuelType.Petrol;
+                        else
+                            throw new  RuntimeException();
+                    }
+                    Double maximumDepositWeight = Double.parseDouble(depWeightTextField.getText());
+                    Double capacity = Double.parseDouble(capacityTextField.getText());
+                    Double averageConsumption = Double.parseDouble(consumpTextField.getText());
+                    Van van = new Van(manufacturer, model, registrationNumber, fuelType, maximumDepositWeight, capacity, averageConsumption);
+                    vanRepository.updateVan(van);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (truckButton.isSelected()) {
+                String manufacturer = manTextField.getText();
+                if (manufacturer == "")
+                    throw new RuntimeException();
+                String model = modelTextField.getText();
+                if (model == "")
+                    throw new RuntimeException();
+                String registrationNumber = regNumTextField.getText();
+                String fuelTypeString = fuelTextField.getText();
+                FuelType fuelType;
+                if (fuelTypeString.equalsIgnoreCase("Diesel"))
+                    fuelType = FuelType.Diesel;
+                else {
+                    if (fuelTypeString.equalsIgnoreCase("Petrol"))
+                        fuelType = FuelType.Petrol;
+                    else
+                        throw new  RuntimeException();
+                }
+                Double maximumDepositWeight = Double.parseDouble(depWeightTextField.getText());
+                Double capacity = Double.parseDouble(capacityTextField.getText());
+                Double averageConsumption = Double.parseDouble(consumpTextField.getText());
+                Truck truck = new Truck(manufacturer, model, registrationNumber, fuelType, maximumDepositWeight, capacity, averageConsumption);
+                truckRepository.updateTruck(truck);
+            }
         }
     }
 
@@ -301,5 +384,26 @@ public class VehicleEditorPanel extends JPanel {
 
             return this;
         }
+    }
+
+    class DeleteMouseAdapter extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                Vehicle vehicle = vehiclesList.getSelectedValue();
+                if (vehicle != null) {
+                    if (vehicle instanceof Bus) {
+                        busRepository.deleteBus((Bus)vehicle);
+                    }
+                    if (vehicle instanceof Van) {
+                        vanRepository.deleteVan((Van)vehicle);
+                    }
+                    if (vehicle instanceof Truck) {
+                        truckRepository.deleteTruck((Truck)vehicle);
+                    }
+                }
+            }
+        }
+
     }
 }
