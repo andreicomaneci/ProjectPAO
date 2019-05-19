@@ -82,9 +82,9 @@ public class Information {
 
     public double getFuelCost(String fuelName) {
         if (fuelName.equalsIgnoreCase("Diesel"))
-            return getFuelCost(FuelType.DIESEL);
+            return getFuelCost(FuelType.Diesel);
         else
-            return getFuelCost(FuelType.PETROL);
+            return getFuelCost(FuelType.Petrol);
     }
 
     public void setFuelCost(FuelType fuel, double cost) {
@@ -93,9 +93,9 @@ public class Information {
 
     public void setFuelCost(String fuelName, double cost) {
         if (fuelName.equalsIgnoreCase("Diesel"))
-            setFuelCost(FuelType.DIESEL, cost);
+            setFuelCost(FuelType.Diesel, cost);
         else
-            setFuelCost(FuelType.PETROL, cost);
+            setFuelCost(FuelType.Petrol, cost);
     }
 
     public List<Road> getRoads() {

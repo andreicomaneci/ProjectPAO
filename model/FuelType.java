@@ -1,5 +1,5 @@
 package model;
 
 public enum FuelType {
-    DIESEL, PETROL
+    Diesel, Petrol
 }
