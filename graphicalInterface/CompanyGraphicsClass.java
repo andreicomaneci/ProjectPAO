@@ -17,7 +17,8 @@ public class CompanyGraphicsClass extends JFrame {
         jtp.add("Bus", new BusPanel());
         jtp.add("Goods Vehicle", new GoodsTransportPanel());
         jtp.add("My Vehicles", new VehiclesPanel());
-        jtp.add("Road selector", new RoadSelectorPanel());
+        jtp.add("Road Selector", new RoadSelectorPanel());
+        jtp.add("Vehicle Editor", new VehicleEditorPanel());
         add(jtp);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

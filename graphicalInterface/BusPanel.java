@@ -4,6 +4,7 @@ import copyrightedClasses.SpringUtilities;
 import model.Bus;
 import model.FuelType;
 import model.Information;
+import repositories.BusRepository;
 
 import javax.swing.*;
 import javax.swing.SpringLayout;
@@ -30,7 +31,9 @@ public class BusPanel extends JPanel {
     private JLabel errorLabel = new JLabel();
 
     //private final int numFields = 6;
-    private Information info = Information.getInformation();
+//    private Information info = Information.getInformation();
+
+    private BusRepository busRepository = new BusRepository();
 
     public BusPanel() {
 
@@ -62,7 +65,7 @@ public class BusPanel extends JPanel {
         consumpLabel.setLabelFor(consumpTextField);
         add(consumpTextField);
 
-        insertBus.addActionListener(new busActionListener());
+        insertBus.addActionListener(new CustomActionListener());
         add(insertBus);
 
         errorLabel.setVisible(false);
@@ -75,7 +78,7 @@ public class BusPanel extends JPanel {
                 3, 3);
     }
 
-    class busActionListener implements ActionListener {
+    class CustomActionListener implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
             errorLabel.setVisible(false);
             try {
@@ -89,17 +92,18 @@ public class BusPanel extends JPanel {
                 String fuelTypeString = fuelTextField.getText();
                 FuelType fuelType;
                 if (fuelTypeString.equalsIgnoreCase("Diesel"))
-                    fuelType = FuelType.DIESEL;
+                    fuelType = FuelType.Diesel;
                 else {
                     if (fuelTypeString.equalsIgnoreCase("Petrol"))
-                        fuelType = FuelType.PETROL;
+                        fuelType = FuelType.Petrol;
                     else
                         throw new  RuntimeException();
                 }
                 Integer numberOfSeats = Integer.parseInt(seatsTextField.getText());
                 Double averageConsumption = Double.parseDouble(consumpTextField.getText());
                 Bus bus = new Bus(manufacturer, model, registrationNumber, fuelType, numberOfSeats, averageConsumption);
-                info.addVehicle(bus);
+//                info.addVehicle(bus);
+                busRepository.addBus(bus);
                 errorLabel.setText("Bus added.");
                 errorLabel.setVisible(true);
             } catch (Exception exc) {

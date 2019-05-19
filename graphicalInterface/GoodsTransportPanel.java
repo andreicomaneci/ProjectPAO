@@ -2,6 +2,8 @@ package graphicalInterface;
 
 import copyrightedClasses.SpringUtilities;
 import model.*;
+import repositories.TruckRepository;
+import repositories.VanRepository;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,8 +33,11 @@ public class GoodsTransportPanel  extends JPanel {
 
     private JLabel errorLabel = new JLabel();
 
-    //private final int numFields = 7;
-    private Information info = Information.getInformation();
+//    private final int numFields = 7;
+//    private Information info = Information.getInformation();
+
+    private TruckRepository truckRepository = new TruckRepository();
+    private VanRepository vanRepository = new VanRepository();
 
     public GoodsTransportPanel() {
 
@@ -74,7 +79,7 @@ public class GoodsTransportPanel  extends JPanel {
         capacityLabel.setLabelFor(capacityTextField);
         add(capacityTextField);
 
-        insertVehicle.addActionListener(new GoodsTransportPanel.customActionListener());
+        insertVehicle.addActionListener(new CustomActionListener());
         add(insertVehicle);
 
         errorLabel.setVisible(false);
@@ -87,7 +92,7 @@ public class GoodsTransportPanel  extends JPanel {
                 3, 3);
     }
 
-    class customActionListener implements ActionListener {
+    class CustomActionListener implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
             errorLabel.setVisible(false);
             String vehicleType = (String)vehicleTypeLister.getSelectedItem();
@@ -102,10 +107,10 @@ public class GoodsTransportPanel  extends JPanel {
                 String fuelTypeString = fuelTextField.getText();
                 FuelType fuelType;
                 if (fuelTypeString.equalsIgnoreCase("Diesel"))
-                    fuelType = FuelType.DIESEL;
+                    fuelType = FuelType.Diesel;
                 else {
                     if (fuelTypeString.equalsIgnoreCase("Petrol"))
-                        fuelType = FuelType.PETROL;
+                        fuelType = FuelType.Petrol;
                     else
                         throw new  RuntimeException();
                 }
@@ -114,11 +119,13 @@ public class GoodsTransportPanel  extends JPanel {
                 Double averageConsumption = Double.parseDouble(consumpTextField.getText());
                 if (vehicleType.equalsIgnoreCase("Truck")) {
                     Truck truck = new Truck(manufacturer, model, registrationNumber, fuelType, maximumDepositWeight, capacity, averageConsumption);
-                    info.addVehicle(truck);
+//                    info.addVehicle(truck);
+                    truckRepository.addTruck(truck);
                 }
                 else {
                     Van van = new Van(manufacturer, model, registrationNumber, fuelType, maximumDepositWeight, capacity, averageConsumption);
-                    info.addVehicle(van);
+//                    info.addVehicle(van);
+                    vanRepository.addVan(van);
                 }
             } catch (Exception exc) {
                 errorLabel.setText("Input is invalid.");

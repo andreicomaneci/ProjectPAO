@@ -1,12 +1,14 @@
 package graphicalInterface;
 
 import model.*;
+import repositories.BusRepository;
+import repositories.TruckRepository;
+import repositories.VanRepository;
 import serviceCSV.BusReadWriteService;
 import serviceCSV.TruckReadWriteService;
 import serviceCSV.VanReadWriteService;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -30,14 +32,18 @@ public class VehiclesPanel extends JPanel {
     private JScrollPane vanSP = new JScrollPane();
     private JScrollPane truckSP = new JScrollPane();
 
-    private Information info = Information.getInformation();
+//    private Information info = Information.getInformation();
+
+    private BusRepository busRepository = new BusRepository();
+    private VanRepository vanRepository = new VanRepository();
+    private TruckRepository truckRepository = new TruckRepository();
 
     public VehiclesPanel() {
 
         setLayout(new GridLayout(0,1));
-        busCB.addItemListener(new customItemListener());
-        vanCB.addItemListener(new customItemListener());
-        truckCB.addItemListener(new customItemListener());
+        busCB.addItemListener(new CustomItemListener());
+        vanCB.addItemListener(new CustomItemListener());
+        truckCB.addItemListener(new CustomItemListener());
 
         BusReadWriteService busReader = new BusReadWriteService();
         VanReadWriteService vanReader = new VanReadWriteService();
@@ -68,7 +74,8 @@ public class VehiclesPanel extends JPanel {
     void listVehicles(String type) {
         switch (type) {
             case "Bus": {
-                List<Bus> buses = info.getBuses();
+//                List<Bus> buses = info.getBuses();
+                List<Bus> buses = busRepository.readBuses();
                 String[][] busInfo = new String[buses.size()][3];
                 int index = 0;
                 for (Bus bus : buses) {
@@ -81,7 +88,8 @@ public class VehiclesPanel extends JPanel {
             }
                 break;
             case "Truck": {
-                List<Truck> trucks = info.getTrucks();
+//                List<Truck> trucks = info.getTrucks();
+                List<Truck> trucks = truckRepository.readTrucks();
                 String[][] truckInfo = new String[trucks.size()][3];
                 int index = 0;
                 for (Truck truck : trucks) {
@@ -94,7 +102,8 @@ public class VehiclesPanel extends JPanel {
             }
                 break;
             case "Van": {
-                List<Van> vans = info.getVans();
+//                List<Van> vans = info.getVans();
+                List<Van> vans = vanRepository.readVans();
                 String[][] vanInfo = new String[vans.size()][3];
                 int index = 0;
                 for (Van van : vans) {
@@ -110,7 +119,7 @@ public class VehiclesPanel extends JPanel {
 
     }
 
-    class customItemListener implements ItemListener {
+    class CustomItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent ie) {
             JCheckBox cb = (JCheckBox)ie.getItem();

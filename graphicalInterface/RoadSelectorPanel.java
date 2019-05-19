@@ -15,6 +15,9 @@ import java.awt.event.ActionListener;
 
 public class RoadSelectorPanel extends JPanel {
 
+    private JPanel inputPanel = new JPanel(new FlowLayout());
+    private JPanel dataPanel = new JPanel(new FlowLayout());
+
     private JLabel startLabel = new JLabel("Departure");
     private JLabel stopLabel = new JLabel("Destination");
     private JLabel messageField = new JLabel();
@@ -31,7 +34,7 @@ public class RoadSelectorPanel extends JPanel {
 
     public RoadSelectorPanel() {
 
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
 
         CityReadWriteService cityReader = new CityReadWriteService();
         RoadReadWriteService roadReader = new RoadReadWriteService();
@@ -48,17 +51,20 @@ public class RoadSelectorPanel extends JPanel {
         startLabel.setLabelFor(startField);
         stopLabel.setLabelFor(stopField);
 
-        add(startLabel);
-        add(startField);
+        inputPanel.add(startLabel);
+        inputPanel.add(startField);
 
-        add(stopLabel);
-        add(stopField);
+        inputPanel.add(stopLabel);
+        inputPanel.add(stopField);
 
-        getRouteButton.addActionListener(new customActionListener());
-        add(getRouteButton);
+        getRouteButton.addActionListener(new CustomActionListener());
+        inputPanel.add(getRouteButton);
 
-        add(messageField);
-        add(answerField);
+        dataPanel.add(messageField);
+        dataPanel.add(answerField);
+
+        add(inputPanel, BorderLayout.NORTH);
+        add(dataPanel);
     }
 
     private String printRoute(Route route, City departure, City destination) {
@@ -77,7 +83,7 @@ public class RoadSelectorPanel extends JPanel {
         return solution.toString();
     }
 
-    public class customActionListener implements ActionListener {
+    public class CustomActionListener implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
             messageField.setVisible(false);
             String start = startField.getText();
